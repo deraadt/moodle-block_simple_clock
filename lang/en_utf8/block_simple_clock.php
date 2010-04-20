@@ -3,7 +3,7 @@
 $string['after_noon'] = 'pm';
 $string['before_noon'] = 'am';
 $string['clock_separator'] = ':';
-$string['clock_title'] = 'Clock';
+$string['clock_title'] = 'Simple Clock';
 $string['config_clock_visibility'] = 'Visible clocks'; 
 $string['config_header'] = 'Header'; 
 $string['config_hide_header'] = 'Hide the header (effective after turning editing off)'; 

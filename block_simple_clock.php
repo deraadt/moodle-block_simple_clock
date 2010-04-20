@@ -29,10 +29,10 @@ class block_simple_clock extends block_base {
     }
     
     //--------------------------------------------------------------------------
-    function preferred_width() {
+    // function preferred_width() {
         // The preferred value is in pixels
-        return 190;
-    }
+        // return 190;
+    // }
 
     //--------------------------------------------------------------------------
     // This is a list block, the footer is used for code that updates the clocks
