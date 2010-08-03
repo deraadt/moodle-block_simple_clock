@@ -29,6 +29,11 @@ class block_simple_clock extends block_base {
     }
     
     //--------------------------------------------------------------------------
+    function specialization() {
+        $this->title = isset($this->config->clock_title)?$this->config->clock_title:get_string('title','block_simple_clock');
+    }
+
+    //--------------------------------------------------------------------------
     // function preferred_width() {
         // The preferred value is in pixels
         // return 190;

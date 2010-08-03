@@ -14,6 +14,7 @@ $string['config_show_both_clocks'] = 'Show clocks for both server and user';
 $string['config_show_seconds'] = 'Show seconds with each clock'; 
 $string['config_show_server_clock'] = 'Show clock for server only'; 
 $string['config_show_user_clock'] = 'Show clock for user only'; 
+$string['config_title'] = 'Instance title'; 
 $string['javascript_disabled'] = 'To allow the clocks to update, enable JavaScript in your browser.'; 
 $string['loading'] = 'Loading...'; 
 $string['server'] = 'Server';
