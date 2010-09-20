@@ -15,7 +15,7 @@ class block_simple_clock extends block_base {
     function init() {
         $this->title = get_string('clock_title','block_simple_clock');
         $this->content_type = BLOCK_TYPE_TEXT;
-        $this->version = 2010032000;
+        $this->version = 2010092000;
     }
 
     //--------------------------------------------------------------------------
@@ -30,7 +30,7 @@ class block_simple_clock extends block_base {
     
     //--------------------------------------------------------------------------
     function specialization() {
-        $this->title = isset($this->config->clock_title)?$this->config->clock_title:get_string('title','block_simple_clock');
+        $this->title = isset($this->config->clock_title)?$this->config->clock_title:get_string('clock_title','block_simple_clock');
     }
 
     //--------------------------------------------------------------------------
@@ -107,10 +107,11 @@ class block_simple_clock extends block_base {
         // Update the server clock if shown
         if(empty($this->config->show_clocks) || $this->config->show_clocks==B_SIMPLE_CLOCK_SHOW_BOTH || $this->config->show_clocks==B_SIMPLE_CLOCK_SHOW_SERVER_ONLY) {
             $this->content->text .= '
-                currentTime = new Date();
-                hours = currentTime.getHours();
-                minutes = currentTime.getMinutes();
-                seconds = currentTime.getSeconds();
+                serverTime = new Date();
+                serverTime.setTime(serverTime.getTime() - timeDifference);
+                hours = serverTime.getHours();
+                minutes = serverTime.getMinutes();
+                seconds = serverTime.getSeconds();
                 document.getElementById("serverTime").value = (hours>12?hours-12:hours==0?12:hours)+"'.get_string('clock_separator','block_simple_clock').'"+(minutes<10?"0":"")+minutes+'.(isset($this->config->show_seconds) && $this->config->show_seconds=='on'?'"'.get_string('clock_separator','block_simple_clock').'"+(seconds<10?"0":"")+seconds+':'').'" "+(hours<12?"'.get_string('before_noon','block_simple_clock').'":"'.get_string('after_noon','block_simple_clock').'");
             ';
         }
@@ -119,7 +120,6 @@ class block_simple_clock extends block_base {
         if(empty($this->config->show_clocks) || $this->config->show_clocks==B_SIMPLE_CLOCK_SHOW_BOTH || $this->config->show_clocks==B_SIMPLE_CLOCK_SHOW_USER_ONLY) {
             $this->content->text .= '
                 youTime = new Date();
-                youTime.setTime(currentTime.getTime()-timeDifference);
                 hours = youTime.getHours();
                 minutes = youTime.getMinutes();
                 seconds = youTime.getSeconds();
