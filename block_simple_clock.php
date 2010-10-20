@@ -100,6 +100,7 @@ class block_simple_clock extends block_base {
             var currentTime = new Date();
             var timeDifference = currentTime.getTime() - serverTimeStart;
             var youTime;
+            var serverTime;
             
             function updateTime() {
         ';
