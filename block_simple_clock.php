@@ -80,7 +80,7 @@ class block_simple_clock extends block_base {
         // Next item is the user's clock
         if(empty($this->config->show_clocks) || $this->config->show_clocks==B_SIMPLE_CLOCK_SHOW_BOTH || $this->config->show_clocks==B_SIMPLE_CLOCK_SHOW_USER_ONLY){
             $this->content->text .= '<tr>';
-            $this->content->text .= isset($this->config->hide_icons) && $this->config->hide_icons=='on'?'':'<td>'.print_user_picture($USER->id, $COURSE->id, $USER->picture, 16, true, false, '', false).'</td>';
+            $this->content->text .= isset($this->config->hide_icons) && $this->config->hide_icons=='on'?'':'<td>'.( empty($USER->picture)?'':print_user_picture($USER->id, $COURSE->id, $USER->picture, 16, true, false, '', false)).'</td>';
             $this->content->text .= '<td>'.get_string('you','block_simple_clock').':</td>';
             $this->content->text .= '<td><input class="clock" id="youTime" value="Loading..."></td>';
             $this->content->text .= '</tr>';
