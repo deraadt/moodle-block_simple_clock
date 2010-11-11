@@ -15,7 +15,7 @@ class block_simple_clock extends block_base {
     function init() {
         $this->title = get_string('clock_title','block_simple_clock');
         $this->content_type = BLOCK_TYPE_TEXT;
-        $this->version = 2010092000;
+        $this->version = 2010111100;
     }
 
     //--------------------------------------------------------------------------
