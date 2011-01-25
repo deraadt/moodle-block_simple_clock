@@ -15,7 +15,7 @@ class block_simple_clock extends block_base {
     function init() {
         $this->title = get_string('clock_title','block_simple_clock');
         $this->content_type = BLOCK_TYPE_TEXT;
-        $this->version = 2010111100;
+        $this->version = 2011012500;
     }
 
     //--------------------------------------------------------------------------
@@ -50,12 +50,13 @@ class block_simple_clock extends block_base {
         if ($this->content !== NULL) {
 		
 			// Try to get the most up-to-date time
+            $timeArray = localtime(time(),true);
             $this->content->text .='
 			<script type="text/javascript">
 			// <![CDATA[
-				serverTimeStart = '.(time()*1000).';
-				currentTime = new Date();
-				timeDifference = currentTime.getTime() - serverTimeStart;
+                serverTimeStart = new Date('.($timeArray['tm_year']+1900).','.$timeArray['tm_mon'].','.$timeArray['tm_mday'].','.$timeArray['tm_hour'].','.$timeArray['tm_min'].','.($timeArray['tm_sec']+1).');
+                currentTime = new Date();
+                timeDifference = currentTime.getTime() - serverTimeStart.getTime();
 			//]]>
 			</script>
 			';
@@ -80,7 +81,7 @@ class block_simple_clock extends block_base {
         // Next item is the user's clock
         if(empty($this->config->show_clocks) || $this->config->show_clocks==B_SIMPLE_CLOCK_SHOW_BOTH || $this->config->show_clocks==B_SIMPLE_CLOCK_SHOW_USER_ONLY){
             $this->content->text .= '<tr>';
-            $this->content->text .= isset($this->config->hide_icons) && $this->config->hide_icons=='on'?'':'<td>'.( empty($USER->picture)?'':print_user_picture($USER->id, $COURSE->id, $USER->picture, 16, true, false, '', false)).'</td>';
+            $this->content->text .= isset($this->config->hide_icons) && $this->config->hide_icons=='on'?'':'<td>'.print_user_picture($USER->id, $COURSE->id, $USER->picture, 16, true, false, '', false).'</td>';
             $this->content->text .= '<td>'.get_string('you','block_simple_clock').':</td>';
             $this->content->text .= '<td><input class="clock" id="youTime" value="Loading..."></td>';
             $this->content->text .= '</tr>';
@@ -90,15 +91,16 @@ class block_simple_clock extends block_base {
         ';
         
         // The updating code
+        $timeArray = localtime(time(),true);
         $this->content->text .= '
 		<noscript>
 			'.get_string('javascript_disabled','block_simple_clock').'
 		</noscript>
         <script type="text/javascript">
         // <![CDATA[
-            var serverTimeStart = '.(time()*1000).';
+            var serverTimeStart = new Date('.($timeArray['tm_year']+1900).','.$timeArray['tm_mon'].','.$timeArray['tm_mday'].','.$timeArray['tm_hour'].','.$timeArray['tm_min'].','.($timeArray['tm_sec']+1).');
             var currentTime = new Date();
-            var timeDifference = currentTime.getTime() - serverTimeStart;
+            var timeDifference = currentTime.getTime() - serverTimeStart.getTime();
             var youTime;
             var serverTime;
             
