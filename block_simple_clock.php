@@ -46,25 +46,26 @@ class block_simple_clock extends block_base {
     function get_content() {
     
         // Access to settings needed
-        global $USER, $COURSE, $OUTPUT;
+        global $USER, $COURSE, $OUTPUT, $CFG;
 
         // Settings variables based on config
-        $showServerClock = empty($this->config->show_clocks) ||
+        $showServerClock = !isset($this->config->show_clocks) ||
             $this->config->show_clocks==B_SIMPLE_CLOCK_SHOW_BOTH ||
             $this->config->show_clocks==B_SIMPLE_CLOCK_SHOW_SERVER_ONLY;
-        $showUserClock = empty($this->config->show_clocks) ||
+        $showUserClock = !isset($this->config->show_clocks) ||
             $this->config->show_clocks==B_SIMPLE_CLOCK_SHOW_BOTH ||
             $this->config->show_clocks==B_SIMPLE_CLOCK_SHOW_USER_ONLY;
-        $showIcons = empty($this->config->show_icons) || $this->config->show_icons==1;
+        $showIcons = !isset($this->config->show_icons) || $this->config->show_icons==1;
         $showSeconds = isset($this->config->show_seconds) && $this->config->show_seconds==1;
-        
+
         $this->content = new stdClass;
         $this->content->text = '<table class="clockTable">';
 
         // First item is the server's clock
         if($showServerClock) {
             $this->content->text .= '<tr>';
-            $this->content->text .= $showIcons?'<td><img src="'.$OUTPUT->pix_url('favicon','theme').'" class="icon" alt="clockIcon" /></td>':'';
+            $this->content->text .= $showIcons?'<td><img src="'.$CFG->wwwroot.'/theme/'.$CFG->theme.'/pix/favicon.ico" class="icon" alt="clockIcon" /></td>':'';
+            // $this->content->text .= $showIcons?'<td><img src="'.$OUTPUT->pix_url('favicon','theme').'" class="icon" alt="clockIcon" /></td>':'';
             $this->content->text .= '<td>'.get_string('server','block_simple_clock').':</td>';
             $this->content->text .= '<td><input class="clock" id="serverTime" value="'.get_string('loading','block_simple_clock').'"></td>';
             $this->content->text .= '</tr>';
