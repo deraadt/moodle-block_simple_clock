@@ -26,7 +26,7 @@ function updateTime() {
 
     // Update the user clock if shown
     if(userClockShown) {
-        youTime = new Date();
+        var youTime = new Date();
         document.getElementById('youTime').value = getClockString(youTime);
     }
 
