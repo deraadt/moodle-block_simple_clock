@@ -2,6 +2,7 @@ var serverClockShown = false;
 var userClockShown = false;
 var showSeconds = false;
 var timeDifference = 0;
+var refreshPeriod = 5000;
 
 function initSimpleClock(YUIObject, server, user, seconds, y,m,d,h,m,s) {
     serverClockShown = server;
@@ -12,7 +13,7 @@ function initSimpleClock(YUIObject, server, user, seconds, y,m,d,h,m,s) {
     timeDifference = currentTime.getTime() - serverTimeStart.getTime();
 
     // Refresh in 1 second
-    timer = setTimeout('updateTime()',1000);
+    timer = setTimeout('updateTime()',refreshPeriod);
 }
 
 function updateTime() {
@@ -31,7 +32,7 @@ function updateTime() {
     }
 
     // Refresh in 1 second
-    timer = setTimeout('updateTime()',1000);
+    timer = setTimeout('updateTime()',refreshPeriod);
 }
 
 function getClockString(clockTime) {
