@@ -38,7 +38,7 @@ $string['config_title_help'] = '<p>This setting allows the block title to be cha
 $string['javascript_disabled'] = 'To allow the clocks to update, enable JavaScript in your browser.';
 $string['loading'] = 'Loading...';
 $string['pluginname'] = 'Simple Clock';
-$string['server'] = 'Server';
+$string['server'] = 'Armidale';
 $string['you'] = 'You';
 
 ?>
