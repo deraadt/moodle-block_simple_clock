@@ -3,11 +3,15 @@ var userClockShown = false;
 var showSeconds = false;
 var timeDifference = 0;
 var refreshPeriod = 5000;
+var showDate = false;
+var dayNameList = [];
 
-function initSimpleClock(YUIObject, server, user, seconds, y,mo,d,h,mi,s) {
+function initSimpleClock(YUIObject, server, user, seconds, date, dayNames, y,mo,d,h,mi,s) {
     serverClockShown = server;
     userClockShown = user;
     showSeconds = seconds;
+    showDate = date;
+    dayNameList = dayNames;
     var serverTimeStart = new Date(y,mo,d,h,mi,s);
     var currentTime = new Date();
     timeDifference = currentTime.getTime() - serverTimeStart.getTime();
@@ -22,16 +26,32 @@ function updateTime() {
         var serverTime = new Date();
         serverTime.setTime(serverTime.getTime() - timeDifference);
         document.getElementById('serverTime').value = getClockString(serverTime);
+        if (showDate) {
+            document.getElementById('serverDate').value = getDateString(serverTime);
+        }
     }
 
     // Update the user clock if shown
     if(userClockShown) {
         var youTime = new Date();
         document.getElementById('youTime').value = getClockString(youTime);
+        if (showDate) {
+            document.getElementById('youDate').value = getDateString(youTime);
+        }
     }
 
     // Refresh in 1 second
     timer = setTimeout('updateTime()',refreshPeriod);
+}
+
+function getDateString(clockTime) {
+    var day = clockTime.getDay();
+    var date = clockTime.getDate();
+    var month = clockTime.getMonth() + 1;
+
+    if(showDate) {
+        return dayNameList[day] + " " + date + "/" + month;
+    }
 }
 
 function getClockString(clockTime) {
