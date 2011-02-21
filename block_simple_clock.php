@@ -23,7 +23,7 @@ class block_simple_clock extends block_base {
 
     //--------------------------------------------------------------------------
     function instance_allow_multiple() {
-        return true;
+        return false;
     }
 
     //--------------------------------------------------------------------------
