@@ -69,7 +69,9 @@ class block_simple_clock extends block_base {
             // $this->content->text .= $showIcons?'<td><img src="'.$OUTPUT->pix_url('favicon','theme').'" class="icon" alt="clockIcon" /></td>':'';
             $this->content->text .= '<td>'.get_string('server','block_simple_clock').':</td>';
             $this->content->text .= '<td>';
-            $this->content->text .= '<input class="clock" id="serverDate" value=""><br/ >';
+            if($showDate) {
+                $this->content->text .= '<input class="clock" id="serverDate" value=""><br/ >';
+            }
             $this->content->text .= '<input class="clock" id="serverTime" value="'.get_string('loading','block_simple_clock').'"></td>';
             $this->content->text .= '</tr>';
         }
@@ -80,7 +82,9 @@ class block_simple_clock extends block_base {
             $this->content->text .= $showIcons?'<td>'.$OUTPUT->user_picture($USER, array('courseid'=>$COURSE->id, 'size'=>16, 'link'=>false)).'</td>':'';
             $this->content->text .= '<td>'.get_string('you','block_simple_clock').':</td>';
             $this->content->text .= '<td>';
-            $this->content->text .= '<input class="clock" id="youDate" value=""><br/ >';
+            if($showDate) {
+                $this->content->text .= '<input class="clock" id="youDate" value=""><br/ >';
+            }
             $this->content->text .= '<input class="clock" id="youTime" value="'.get_string('loading','block_simple_clock').'"></td>';
             $this->content->text .= '</tr>';
         }
