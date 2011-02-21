@@ -23,6 +23,11 @@ class block_simple_clock_edit_form extends block_edit_form {
         $mform->setDefault('config_show_clocks', B_SIMPLE_CLOCK_SHOW_BOTH);
         $mform->addHelpButton('config_show_clocks','config_clock_visibility', 'block_simple_clock');
 
+        // Control visibility of day
+        $mform->addElement('selectyesno', 'config_show_date', get_string('config_date', 'block_simple_clock'));
+        $mform->setDefault('config_show_date', 0);
+        $mform->addHelpButton('config_show_date','config_date', 'block_simple_clock');
+
         // Control visibility of seconds
         $mform->addElement('selectyesno', 'config_show_seconds', get_string('config_seconds', 'block_simple_clock'));
         $mform->setDefault('config_show_seconds', 0);
