@@ -23,7 +23,7 @@ class block_simple_clock extends block_base {
 
     //--------------------------------------------------------------------------
     function instance_allow_multiple() {
-        return true;
+        return false;
     }
 
     //--------------------------------------------------------------------------
@@ -57,6 +57,7 @@ class block_simple_clock extends block_base {
             $this->config->show_clocks==B_SIMPLE_CLOCK_SHOW_USER_ONLY;
         $showIcons = !isset($this->config->show_icons) || $this->config->show_icons==1;
         $showSeconds = isset($this->config->show_seconds) && $this->config->show_seconds==1;
+        $showDate = isset($this->config->show_date) && $this->config->show_date==1;
 
         $this->content = new stdClass;
         $this->content->text = '<table class="clockTable">';
@@ -67,7 +68,9 @@ class block_simple_clock extends block_base {
             $this->content->text .= $showIcons?'<td><img src="'.$CFG->wwwroot.'/theme/'.$CFG->theme.'/pix/favicon.ico" class="icon" alt="clockIcon" /></td>':'';
             // $this->content->text .= $showIcons?'<td><img src="'.$OUTPUT->pix_url('favicon','theme').'" class="icon" alt="clockIcon" /></td>':'';
             $this->content->text .= '<td>'.get_string('server','block_simple_clock').':</td>';
-            $this->content->text .= '<td><input class="clock" id="serverTime" value="'.get_string('loading','block_simple_clock').'"></td>';
+            $this->content->text .= '<td>';
+            $this->content->text .= '<input class="clock" id="serverDate" value=""><br/ >';
+            $this->content->text .= '<input class="clock" id="serverTime" value="'.get_string('loading','block_simple_clock').'"></td>';
             $this->content->text .= '</tr>';
         }
 
@@ -76,7 +79,9 @@ class block_simple_clock extends block_base {
             $this->content->text .= '<tr>';
             $this->content->text .= $showIcons?'<td>'.$OUTPUT->user_picture($USER, array('courseid'=>$COURSE->id, 'size'=>16, 'link'=>false)).'</td>':'';
             $this->content->text .= '<td>'.get_string('you','block_simple_clock').':</td>';
-            $this->content->text .= '<td><input class="clock" id="youTime" value="'.get_string('loading','block_simple_clock').'"></td>';
+            $this->content->text .= '<td>';
+            $this->content->text .= '<input class="clock" id="youDate" value=""><br/ >';
+            $this->content->text .= '<input class="clock" id="youTime" value="'.get_string('loading','block_simple_clock').'"></td>';
             $this->content->text .= '</tr>';
         }
         $this->content->text .= '</table>';
@@ -88,6 +93,8 @@ class block_simple_clock extends block_base {
             $showServerClock,
             $showUserClock,
             $showSeconds,
+            $showDate,
+            get_daynames(),
             $timeArray['tm_year']+1900,
             $timeArray['tm_mon'],
             $timeArray['tm_mday'],
@@ -110,4 +117,13 @@ class block_simple_clock extends block_base {
         $this->content->footer = '';
         return $this->content;
     }
+
+}
+function get_daynames(){
+    $days = array('sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat');
+    $daynames = array();
+    foreach ($days as $day) {
+        array_push($daynames, get_string($day, 'calendar'));
+    }
+    return $daynames;
 }

@@ -7,6 +7,7 @@
 .block_simple_clock .clockTable td {
     padding: 2px;
     margin: 0;
+    vertical-align: top;
 }
 
 .block_simple_clock .clock {
