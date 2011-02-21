@@ -39,7 +39,7 @@ function getClockString(clockTime) {
     var hours = clockTime.getHours();
     var minutes = clockTime.getMinutes();
     var seconds = clockTime.getSeconds();
-    
+
     // Add the hours
     if(hours>12) {
         clockString += hours-12;
@@ -50,7 +50,7 @@ function getClockString(clockTime) {
     else {
         clockString += hours;
     }
-    
+
     // Append a separator
     clockString += M.str.block_simple_clock.clock_separator;
 
@@ -59,7 +59,7 @@ function getClockString(clockTime) {
         clockString += '0';
     }
     clockString += minutes;
-    
+
     // Add the seconds if desired
     if(showSeconds) {
         clockString += M.str.block_simple_clock.clock_separator;
@@ -68,7 +68,7 @@ function getClockString(clockTime) {
         }
         clockString += seconds;
     }
-    
+
     // Add the am/pm suffix
     if(hours<12) {
         clockString += M.str.block_simple_clock.before_noon;
@@ -76,6 +76,6 @@ function getClockString(clockTime) {
     else {
         clockString += M.str.block_simple_clock.after_noon;
     }
-    
+
     return clockString;
 }
