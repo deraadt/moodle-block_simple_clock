@@ -12,8 +12,7 @@ function initSimpleClock(YUIObject, server, user, seconds, y,m,d,h,m,s) {
     var currentTime = new Date();
     timeDifference = currentTime.getTime() - serverTimeStart.getTime();
 
-    // Refresh in 1 second
-    timer = setTimeout('updateTime()',refreshPeriod);
+    updateTime();
 }
 
 function updateTime() {
