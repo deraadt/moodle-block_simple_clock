@@ -4,11 +4,11 @@ var showSeconds = false;
 var timeDifference = 0;
 var refreshPeriod = 5000;
 
-function initSimpleClock(YUIObject, server, user, seconds, y,m,d,h,m,s) {
+function initSimpleClock(YUIObject, server, user, seconds, y,mo,d,h,mi,s) {
     serverClockShown = server;
     userClockShown = user;
     showSeconds = seconds;
-    var serverTimeStart = new Date(y,m,d,h,m,s);
+    var serverTimeStart = new Date(y,mo,d,h,mi,s);
     var currentTime = new Date();
     timeDifference = currentTime.getTime() - serverTimeStart.getTime();
 
