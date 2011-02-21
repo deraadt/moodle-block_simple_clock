@@ -19,7 +19,7 @@ function updateTime() {
 
     // Update the server clock if shown
     if(serverClockShown) {
-        serverTime = new Date();
+        var serverTime = new Date();
         serverTime.setTime(serverTime.getTime() - timeDifference);
         document.getElementById('serverTime').value = getClockString(serverTime);
     }
