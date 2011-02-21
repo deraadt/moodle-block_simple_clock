@@ -35,7 +35,7 @@ class block_simple_clock extends block_base {
     function hide_header() {
         return isset($this->config->show_header) && $this->config->show_header==0;
     }
-    
+
     //--------------------------------------------------------------------------
     function specialization() {
         $this->title = isset($this->config->clock_title)?$this->config->clock_title:get_string('clock_title_default','block_simple_clock');
@@ -44,7 +44,7 @@ class block_simple_clock extends block_base {
     //--------------------------------------------------------------------------
     // This is a list block, the footer is used for code that updates the clocks
     function get_content() {
-    
+
         // Access to settings needed
         global $USER, $COURSE, $OUTPUT, $CFG;
 
@@ -80,7 +80,7 @@ class block_simple_clock extends block_base {
             $this->content->text .= '</tr>';
         }
         $this->content->text .= '</table>';
-        
+
         // Set up JavaScript
         $this->content->text .= '<noscript>'.get_string('javascript_disabled','block_simple_clock').'</noscript>';
         $timeArray = localtime(time(),true);
