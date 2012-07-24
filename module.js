@@ -1,81 +1,95 @@
-var serverClockShown = false;
-var userClockShown = false;
-var showSeconds = false;
-var timeDifference = 0;
+M.block_simple_clock = {
+    serverClockShown: true,
+    userClockShown: true,
+    showSeconds: false,
+    showDay: false,
+    timeDifference: 0,
 
-function initSimpleClock(YUIObject, server, user, seconds, y,m,d,h,m,s) {
-    serverClockShown = server;
-    userClockShown = user;
-    showSeconds = seconds;
-    var serverTimeStart = new Date(y,m,d,h,m,s);
-    var currentTime = new Date();
-    timeDifference = currentTime.getTime() - serverTimeStart.getTime();
+    initSimpleClock: function (YUIObject, server, user, seconds, day, y,mo,d,h,m,s) {
+        var serverTimeStart = new Date(y,mo,d,h,m,s);
+        var currentTime = new Date();
 
-    // Refresh in 1 second
-    timer = setTimeout('updateTime()',1000);
-}
+        // Set up object properties
+        this.timeDifference = currentTime.getTime() - serverTimeStart.getTime();
+        this.serverClockShown = server;
+        this.userClockShown = user;
+        this.showSeconds = seconds;
+        this.showDay = day;
 
-function updateTime() {
+        // Refresh clock display in 1 second
+        this.updateTime();
+    },
 
-    // Update the server clock if shown
-    if(serverClockShown) {
-        var serverTime = new Date();
-        serverTime.setTime(serverTime.getTime() - timeDifference);
-        document.getElementById('serverTime').value = getClockString(serverTime);
-    }
+    updateTime: function () {
+        var serverTime;
+        var youTime;
 
-    // Update the user clock if shown
-    if(userClockShown) {
-        var youTime = new Date();
-        document.getElementById('youTime').value = getClockString(youTime);
-    }
+        // Update the server clock if shown
+        if(this.serverClockShown) {
+            serverTime = new Date();
+            serverTime.setTime(serverTime.getTime() - this.timeDifference);
+            document.getElementById('block_progress_serverTime').value = this.getClockString(serverTime);
+        }
 
-    // Refresh in 1 second
-    timer = setTimeout('updateTime()',1000);
-}
+        // Update the user clock if shown
+        if(this.userClockShown) {
+            youTime = new Date();
+            document.getElementById('block_progress_youTime').value = this.getClockString(youTime);
+        }
 
-function getClockString(clockTime) {
-    var clockString = '';
-    var hours = clockTime.getHours();
-    var minutes = clockTime.getMinutes();
-    var seconds = clockTime.getSeconds();
+        // Refresh clock display in 1 second
+        setTimeout('M.block_simple_clock.updateTime()',1000);
+    },
 
-    // Add the hours
-    if(hours>12) {
-        clockString += hours-12;
-    }
-    else if (hours==0) {
-        clockString += 12;
-    }
-    else {
-        clockString += hours;
-    }
+    getClockString: function (clockTime) {
+        var clockString = '';
+        var day = M.str.block_simple_clock.day_names.split(',')[clockTime.getDay()];
+        var hours = clockTime.getHours();
+        var minutes = clockTime.getMinutes();
+        var seconds = clockTime.getSeconds();
 
-    // Append a separator
-    clockString += M.str.block_simple_clock.clock_separator;
+        // Add the day name
+        if(this.showDay) {
+            clockString += day+' ';
+        }
 
-    // Add the minutes
-    if(minutes<10) {
-        clockString += '0';
-    }
-    clockString += minutes;
+        // Add the hours
+        if(hours>12) {
+            clockString += hours-12;
+        }
+        else if (hours==0) {
+            clockString += 12;
+        }
+        else {
+            clockString += hours;
+        }
 
-    // Add the seconds if desired
-    if(showSeconds) {
+        // Append a separator
         clockString += M.str.block_simple_clock.clock_separator;
-        if(seconds<10) {
+
+        // Add the minutes
+        if(minutes<10) {
             clockString += '0';
         }
-        clockString += seconds;
-    }
+        clockString += minutes;
 
-    // Add the am/pm suffix
-    if(hours<12) {
-        clockString += M.str.block_simple_clock.before_noon;
-    }
-    else {
-        clockString += M.str.block_simple_clock.after_noon;
-    }
+        // Add the seconds if desired
+        if(this.showSeconds) {
+            clockString += M.str.block_simple_clock.clock_separator;
+            if(seconds<10) {
+                clockString += '0';
+            }
+            clockString += seconds;
+        }
 
-    return clockString;
-}
+        // Add the am/pm suffix
+        if(hours<12) {
+            clockString += M.str.block_simple_clock.before_noon;
+        }
+        else {
+            clockString += M.str.block_simple_clock.after_noon;
+        }
+
+        return clockString;
+    }
+};

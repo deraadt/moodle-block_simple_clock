@@ -1,99 +1,200 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-// If you want to change the clock names, do this in the language file
+
+/**
+ * Simple Clock block definition
+ *
+ * @package    contrib
+ * @subpackage block_simple_clock
+ * @copyright  2010 Michael de Raadt
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
+require_once(dirname(__FILE__) . '/../../config.php');
 
 // Three states, must show at least one clock
 define('B_SIMPLE_CLOCK_SHOW_BOTH',        0);
 define('B_SIMPLE_CLOCK_SHOW_SERVER_ONLY', 1);
 define('B_SIMPLE_CLOCK_SHOW_USER_ONLY',   2);
 
-//------------------------------------------------------------------------------
-// Main clock class
+/**
+ * Simple clock block class
+ *
+ * @copyright 2010 Michael de Raadt
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class block_simple_clock extends block_base {
 
-    //--------------------------------------------------------------------------
-    function init() {
-        $this->title = get_string('clock_title_default','block_simple_clock');
+    /**
+     * Sets the block title
+     *
+     * @return none
+     */
+    public function init() {
+        $this->title = get_string('clock_title_default', 'block_simple_clock');
     }
 
-    //--------------------------------------------------------------------------
-    function applicable_formats() {
+    /**
+     * Defines where the block can be added
+     *
+     * @return array
+     */
+    public function applicable_formats() {
         return array('all' => true);
     }
 
-    //--------------------------------------------------------------------------
-    function instance_allow_multiple() {
-        return true;
+    /**
+     * Constrols global configurability of block
+     *
+     * @return bool
+     */
+    public function instance_allow_config() {
+        return false;
     }
 
-    //--------------------------------------------------------------------------
-    function has_config() {
-        return true;
+    /**
+     * Constrols global configurability of block
+     *
+     * @return bool
+     */
+    public function has_config() {
+        return false;
     }
 
-    //--------------------------------------------------------------------------
-    function hide_header() {
+    /**
+     * Constrols if a block header is shown based on instance configuration
+     *
+     * @return bool
+     */
+    public function hide_header() {
         return isset($this->config->show_header) && $this->config->show_header==0;
     }
 
-    //--------------------------------------------------------------------------
-    function specialization() {
-        $this->title = isset($this->config->clock_title)?$this->config->clock_title:get_string('clock_title_default','block_simple_clock');
+    /**
+     * Constrols the block title based on instance configuration
+     *
+     * @return bool
+     */
+    public function specialization() {
+        // Override the block title if an alternative is set
+        $this->title = (isset($this->config->clock_title) && $this->config->clock_title!='')?
+            $this->config->clock_title:
+            get_string('clock_title_default', 'block_simple_clock');
     }
 
-    //--------------------------------------------------------------------------
-    // This is a list block, the footer is used for code that updates the clocks
-    function get_content() {
+    /**
+     * Creates the blocks main content
+     *
+     * @return string
+     */
+    public function get_content() {
 
         // Access to settings needed
         global $USER, $COURSE, $OUTPUT, $CFG;
 
+        if (isset($this->content)) {
+            return $this->content;
+        }
+
         // Settings variables based on config
-        $showServerClock = !isset($this->config->show_clocks) ||
+        $showserverclock = !isset($this->config->show_clocks) ||
             $this->config->show_clocks==B_SIMPLE_CLOCK_SHOW_BOTH ||
             $this->config->show_clocks==B_SIMPLE_CLOCK_SHOW_SERVER_ONLY;
-        $showUserClock = !isset($this->config->show_clocks) ||
+        $showuserclock = !isset($this->config->show_clocks) ||
             $this->config->show_clocks==B_SIMPLE_CLOCK_SHOW_BOTH ||
             $this->config->show_clocks==B_SIMPLE_CLOCK_SHOW_USER_ONLY;
-        $showIcons = !isset($this->config->show_icons) || $this->config->show_icons==1;
-        $showSeconds = isset($this->config->show_seconds) && $this->config->show_seconds==1;
+        $showicons = !isset($this->config->show_icons) || $this->config->show_icons==1;
+        $showseconds = isset($this->config->show_seconds) && $this->config->show_seconds==1;
+        $showday = isset($this->config->show_day) && $this->config->show_day==1;
 
+        // Start the content, which is primarily a table
         $this->content = new stdClass;
-        $this->content->text = '<table class="clockTable">';
+        $table = new html_table();
+        $table->attributes = array('class' => 'clockTable');
 
         // First item is the server's clock
-        if($showServerClock) {
-            $this->content->text .= '<tr>';
-            $this->content->text .= $showIcons?'<td><img src="'.$CFG->wwwroot.'/theme/'.$CFG->theme.'/pix/favicon.ico" class="icon" alt="clockIcon" /></td>':'';
-            // $this->content->text .= $showIcons?'<td><img src="'.$OUTPUT->pix_url('favicon','theme').'" class="icon" alt="clockIcon" /></td>':'';
-            $this->content->text .= '<td>'.get_string('server','block_simple_clock').':</td>';
-            $this->content->text .= '<td><input class="clock" id="serverTime" value="'.get_string('loading','block_simple_clock').'"></td>';
-            $this->content->text .= '</tr>';
+        if ($showserverclock) {
+            $row = array();
+            if ($showicons) {
+                $alt = get_string('server', 'block_simple_clock');
+                if (check_browser_version('MSIE')) {
+                    $servericon = $OUTPUT->pix_icon('server', $alt, 'block_simple_clock');
+                }
+                else {
+                    $servericon = $OUTPUT->pix_icon('favicon', $alt, 'theme');
+                }
+                $row[] = $servericon;
+            }
+            $row[] = get_string('server', 'block_simple_clock').':';
+            $attributes = array();
+            $attributes['class'] = 'clock';
+            $attributes['id'] = 'block_progress_serverTime';
+            $attributes['value'] = get_string('loading', 'block_simple_clock');
+            $row[] = HTML_WRITER::empty_tag('input', $attributes);
+            $table->data[] = $row;
         }
 
         // Next item is the user's clock
-        if($showUserClock){
-            $this->content->text .= '<tr>';
-            $this->content->text .= $showIcons?'<td>'.$OUTPUT->user_picture($USER, array('courseid'=>$COURSE->id, 'size'=>16, 'link'=>false)).'</td>':'';
-            $this->content->text .= '<td>'.get_string('you','block_simple_clock').':</td>';
-            $this->content->text .= '<td><input class="clock" id="youTime" value="'.get_string('loading','block_simple_clock').'"></td>';
-            $this->content->text .= '</tr>';
+        if ($showuserclock) {
+            $row = array();
+            if ($showicons) {
+                if ($USER->id!=0) {
+                    $userpictureparams = array('size'=>16, 'link'=>false, 'alt'=>'User');
+                    $userpicture = $OUTPUT->user_picture($USER, $userpictureparams);
+                    $row[] = $userpicture;
+                }
+            }
+            $row[] = get_string('you', 'block_simple_clock').':';
+            $attributes = array();
+            $attributes['class'] = 'clock';
+            $attributes['id'] = 'block_progress_youTime';
+            $attributes['value'] = get_string('loading', 'block_simple_clock');
+            $row[] = HTML_WRITER::empty_tag('input', $attributes);
+            $table->data[] = $row;
         }
-        $this->content->text .= '</table>';
+        $this->content->text .= HTML_WRITER::table($table);
 
         // Set up JavaScript
-        $this->content->text .= '<noscript>'.get_string('javascript_disabled','block_simple_clock').'</noscript>';
-        $timeArray = localtime(time(),true);
+        $noscriptstring = get_string('javascript_disabled', 'block_simple_clock');
+        $this->content->text .= HTML_WRITER::tag('noscript', $noscriptstring);
+        if ($CFG->timezone != 99) {
+            // Ensure that the Moodle timezone is set correctly and
+            // the correct server timezone is set in php.ini
+            $moodletimeoffset = get_timezone_offset($CFG->timezone);
+            $servertimeoffset = date_offset_get(new DateTime);
+            $timearray = localtime(time() + $moodletimeoffset - $servertimeoffset, true);
+        }
+        else {
+            // Ensure that the server timezone is set in php.ini
+            $timearray = localtime(time(), true);
+        }
+
+        // Set up the JavaScript needed
         $arguments = array(
-            $showServerClock,
-            $showUserClock,
-            $showSeconds,
-            $timeArray['tm_year']+1900,
-            $timeArray['tm_mon'],
-            $timeArray['tm_mday'],
-            $timeArray['tm_hour'],
-            $timeArray['tm_min'],
-            $timeArray['tm_sec']+2 // arbitrary load time added
+            $showserverclock,
+            $showuserclock,
+            $showseconds,
+            $showday,
+            $timearray['tm_year']+1900,
+            $timearray['tm_mon'],
+            $timearray['tm_mday'],
+            $timearray['tm_hour'],
+            $timearray['tm_min'],
+            $timearray['tm_sec']+2 // arbitrary load time added
         );
         $jsmodule = array(
             'name' => 'block_simple_clock',
@@ -103,9 +204,11 @@ class block_simple_clock extends block_base {
                 array('clock_separator', 'block_simple_clock'),
                 array('before_noon', 'block_simple_clock'),
                 array('after_noon', 'block_simple_clock'),
+                array('day_names', 'block_simple_clock'),
             ),
         );
-        $this->page->requires->js_init_call('initSimpleClock',$arguments,false,$jsmodule);
+        $this->page->requires->js_init_call('M.block_simple_clock.initSimpleClock',
+                                            $arguments, false, $jsmodule);
 
         $this->content->footer = '';
         return $this->content;
