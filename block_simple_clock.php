@@ -49,6 +49,18 @@ class block_simple_clock extends block_base {
     }
 
     /**
+     * Constrols the block title based on instance configuration
+     *
+     * @return bool
+     */
+    public function specialization() {
+        // Override the block title if an alternative is set
+        if (isset($this->config->clock_title) && trim($this->config->clock_title)!='') {
+            $this->title = format_string($this->config->clock_title);
+        }
+    }
+
+    /**
      * Defines where the block can be added
      *
      * @return array
@@ -82,18 +94,6 @@ class block_simple_clock extends block_base {
      */
     public function hide_header() {
         return isset($this->config->show_header) && $this->config->show_header==0;
-    }
-
-    /**
-     * Constrols the block title based on instance configuration
-     *
-     * @return bool
-     */
-    public function specialization() {
-        // Override the block title if an alternative is set
-        $this->title = (isset($this->config->clock_title) && $this->config->clock_title!='')?
-            $this->config->clock_title:
-            get_string('clock_title_default', 'block_simple_clock');
     }
 
     /**
