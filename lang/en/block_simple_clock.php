@@ -80,4 +80,6 @@ $string['javascript_disabled'] = 'To allow the clocks to update, enable JavaScri
 $string['loading'] = 'Loading...';
 $string['pluginname'] = 'Simple Clock';
 $string['server'] = 'Server';
+$string['simple_clock:myaddinstance'] = 'Add a new Simple Clock block to the My Moodle page';
+$string['simple_clock:addinstance'] = 'Add a new Simple Clock block';
 $string['you'] = 'You';
