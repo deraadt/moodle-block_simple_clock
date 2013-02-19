@@ -66,7 +66,12 @@ class block_simple_clock extends block_base {
      * @return array
      */
     public function applicable_formats() {
-        return array('all' => true);
+        return array(
+			'course-view'    => true,
+			'site-index'     => true,
+			'mod'            => false,
+			'my'             => false
+		);
     }
 
     /**
