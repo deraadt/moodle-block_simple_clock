@@ -162,6 +162,9 @@ class block_simple_clock extends block_base {
                     $userpicture = $OUTPUT->user_picture($USER, $userpictureparams);
                     $row[] = $userpicture;
                 }
+                else {
+                    $row[] = '';
+                }
             }
             $row[] = get_string('you', 'block_simple_clock').':';
             $attributes = array();
