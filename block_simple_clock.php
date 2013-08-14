@@ -182,7 +182,7 @@ class block_simple_clock extends block_base {
         if ($CFG->timezone != 99) {
             // Ensure that the Moodle timezone is set correctly and
             // the correct server timezone is set in php.ini
-            $moodletimeoffset = get_timezone_offset($CFG->timezone);
+            $moodletimeoffset = get_timezone_offset($CFG->timezone) + dst_offset_on(time(), $CFG->timezone);
             $servertimeoffset = date_offset_get(new DateTime);
             $timearray = localtime(time() + $moodletimeoffset - $servertimeoffset, true);
         }
