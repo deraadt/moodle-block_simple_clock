@@ -52,17 +52,17 @@ M.block_simple_clock = {
 
         // Add the day name
         if(this.showDay) {
-            clockString += day+' ';
+            clockString += day + ' ';
         }
 
         // Add the hours
         if(this.twentyFourHourTime) {
             clockString += hours;
         }
-        else if(hours>12) {
-            clockString += hours-12;
+        else if(hours > 12) {
+            clockString += hours - 12;
         }
-        else if (hours==0) {
+        else if (hours == 0) {
             clockString += 12;
         }
         else {
@@ -73,7 +73,7 @@ M.block_simple_clock = {
         clockString += M.str.block_simple_clock.clock_separator;
 
         // Add the minutes
-        if(minutes<10) {
+        if(minutes < 10) {
             clockString += '0';
         }
         clockString += minutes;
@@ -81,7 +81,7 @@ M.block_simple_clock = {
         // Add the seconds if desired
         if(this.showSeconds) {
             clockString += M.str.block_simple_clock.clock_separator;
-            if(seconds<10) {
+            if(seconds < 10) {
                 clockString += '0';
             }
             clockString += seconds;
@@ -89,7 +89,7 @@ M.block_simple_clock = {
 
         // Add the am/pm suffix if not using 24hr time
         if(!this.twentyFourHourTime) {
-            if(hours<12) {
+            if(hours < 12) {
                 clockString += M.str.block_simple_clock.before_noon;
             }
             else {

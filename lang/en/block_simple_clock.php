@@ -24,12 +24,12 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-// Clock strings
+// Clock strings...
 $string['after_noon'] = 'pm';
 $string['before_noon'] = 'am';
 $string['clock_separator'] = ':';
 
-// Config strings and help
+// Config strings and help...
 $string['clock_title_default'] = 'Clock';
 $string['config_clock_visibility'] = 'Visible clocks';
 $string['config_clock_visibility_help'] = '<p>With this setting, you can control whether the user will see:</p>
@@ -75,8 +75,8 @@ $string['config_title_help'] = '
 ';
 $string['config_twenty_four_hour_time'] = 'Show 24hr time';
 
-// Other strings
-$string['day_names'] = 'Sun,Mon,Tue,Wed,Thu,Fri,Sat'; // Preserve this format
+// Other strings...
+$string['day_names'] = 'Sun,Mon,Tue,Wed,Thu,Fri,Sat'; // Preserve this format and don't add spaces.
 $string['javascript_disabled'] = 'To allow the clocks to update, enable JavaScript in your browser.';
 $string['loading'] = 'Loading...';
 $string['pluginname'] = 'Simple Clock';

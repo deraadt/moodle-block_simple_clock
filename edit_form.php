@@ -36,10 +36,10 @@ class block_simple_clock_edit_form extends block_edit_form {
 
     protected function specific_definition($mform) {
 
-        // Start block specific section in config form
+        // Start block specific section in config form.
         $mform->addElement('header', 'configheader', get_string('blocksettings', 'block'));
 
-        // Clocks shown options
+        // Options controlling how clocks are shown.
         $showclockoptions = array(
             B_SIMPLE_CLOCK_SHOW_BOTH =>
                 get_string('config_show_both_clocks', 'block_simple_clock'),
@@ -55,36 +55,36 @@ class block_simple_clock_edit_form extends block_edit_form {
         $mform->addHelpButton('config_show_clocks', 'config_clock_visibility',
                               'block_simple_clock');
 
-        // Control visibility of day names
+        // Control visibility of day names.
         $mform->addElement('selectyesno', 'config_show_day',
                            get_string('config_day', 'block_simple_clock'));
         $mform->setDefault('config_show_day', 0);
         $mform->addHelpButton('config_show_day', 'config_day', 'block_simple_clock');
 
-        // Control visibility of seconds
+        // Control visibility of seconds.
         $mform->addElement('selectyesno', 'config_show_seconds',
                            get_string('config_seconds', 'block_simple_clock'));
         $mform->setDefault('config_show_seconds', 0);
         $mform->addHelpButton('config_show_seconds', 'config_seconds', 'block_simple_clock');
 
-        // Control 24 hour time
+        // Control 24 hour time.
         $mform->addElement('selectyesno', 'config_twenty_four_hour_time',
                            get_string('config_twenty_four_hour_time', 'block_simple_clock'));
         $mform->setDefault('config_twenty_four_hour_time', 0);
 
-        // Control visibility of icons
+        // Control visibility of icons.
         $mform->addElement('selectyesno', 'config_show_icons',
                            get_string('config_icons', 'block_simple_clock'));
         $mform->setDefault('config_show_icons', 1);
         $mform->addHelpButton('config_show_icons', 'config_icons', 'block_simple_clock');
 
-        // Control visibility of the block header
+        // Control visibility of the block header.
         $mform->addElement('selectyesno', 'config_show_header',
                            get_string('config_header', 'block_simple_clock'));
         $mform->setDefault('config_show_header', 1);
         $mform->addHelpButton('config_show_header', 'config_header', 'block_simple_clock');
 
-        // Clock block instance alternate title
+        // Clock block instance alternate title.
         $mform->addElement('text', 'config_clock_title',
                            get_string('config_title', 'block_simple_clock'));
         $mform->setDefault('config_clock_title', '');
