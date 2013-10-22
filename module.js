@@ -3,9 +3,10 @@ M.block_simple_clock = {
     userClockShown: true,
     showSeconds: false,
     showDay: false,
+    twentyFourHourTime: false,
     timeDifference: 0,
 
-    initSimpleClock: function (YUIObject, server, user, seconds, day, y,mo,d,h,m,s) {
+    initSimpleClock: function (YUIObject, server, user, seconds, day, tfh, y,mo,d,h,m,s) {
         var serverTimeStart = new Date(y,mo,d,h,m,s);
         var currentTime = new Date();
 
@@ -15,6 +16,7 @@ M.block_simple_clock = {
         this.userClockShown = user;
         this.showSeconds = seconds;
         this.showDay = day;
+        this.twentyFourHourTime = tfh;
 
         // Refresh clock display in 1 second
         this.updateTime();
@@ -54,7 +56,10 @@ M.block_simple_clock = {
         }
 
         // Add the hours
-        if(hours>12) {
+        if(this.twentyFourHourTime) {
+            clockString += hours;
+        }
+        else if(hours>12) {
             clockString += hours-12;
         }
         else if (hours==0) {
@@ -82,12 +87,14 @@ M.block_simple_clock = {
             clockString += seconds;
         }
 
-        // Add the am/pm suffix
-        if(hours<12) {
-            clockString += M.str.block_simple_clock.before_noon;
-        }
-        else {
-            clockString += M.str.block_simple_clock.after_noon;
+        // Add the am/pm suffix if not using 24hr time
+        if(!this.twentyFourHourTime) {
+            if(hours<12) {
+                clockString += M.str.block_simple_clock.before_noon;
+            }
+            else {
+                clockString += M.str.block_simple_clock.after_noon;
+            }
         }
 
         return clockString;

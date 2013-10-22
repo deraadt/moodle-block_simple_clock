@@ -67,6 +67,11 @@ class block_simple_clock_edit_form extends block_edit_form {
         $mform->setDefault('config_show_seconds', 0);
         $mform->addHelpButton('config_show_seconds', 'config_seconds', 'block_simple_clock');
 
+        // Control 24 hour time
+        $mform->addElement('selectyesno', 'config_twenty_four_hour_time',
+                           get_string('config_twenty_four_hour_time', 'block_simple_clock'));
+        $mform->setDefault('config_twenty_four_hour_time', 0);
+
         // Control visibility of icons
         $mform->addElement('selectyesno', 'config_show_icons',
                            get_string('config_icons', 'block_simple_clock'));

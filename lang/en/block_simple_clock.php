@@ -73,6 +73,7 @@ $string['config_title_help'] = '
 <p>If no alternate is provided, the default title is used.</p>
 <p>If the block header is hidden, the title will not appear.</p>
 ';
+$string['config_twenty_four_hour_time'] = 'Show 24hr time';
 
 // Other strings
 $string['day_names'] = 'Sun,Mon,Tue,Wed,Thu,Fri,Sat'; // Preserve this format

@@ -125,6 +125,7 @@ class block_simple_clock extends block_base {
         $showicons = !isset($this->config->show_icons) || $this->config->show_icons==1;
         $showseconds = isset($this->config->show_seconds) && $this->config->show_seconds==1;
         $showday = isset($this->config->show_day) && $this->config->show_day==1;
+        $show24hrtime = isset($this->config->twenty_four_hour_time) && $this->config->twenty_four_hour_time==1;
 
         // Start the content, which is primarily a table
         $this->content = new stdClass;
@@ -197,6 +198,7 @@ class block_simple_clock extends block_base {
             $showuserclock,
             $showseconds,
             $showday,
+            $show24hrtime,
             $timearray['tm_year']+1900,
             $timearray['tm_mon'],
             $timearray['tm_mday'],
