@@ -136,7 +136,14 @@ class block_simple_clock extends block_base {
             $row = array();
             if ($showicons) {
                 $alt = get_string('server', 'block_simple_clock');
-                if (check_browser_version('MSIE')) {
+                $usingie = false;
+                if(class_exists('core_useragent')) {
+                    $usingie = core_useragent::is_ie();
+                }
+                else {
+                    $usingie = check_browser_version('MSIE');
+                }
+                if ($usingie) {
                     $servericon = $OUTPUT->pix_icon('server', $alt, 'block_simple_clock');
                 }
                 else {
