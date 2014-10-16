@@ -69,8 +69,8 @@ class block_simple_clock extends block_base {
         return array(
             'course-view'    => true,
             'site-index'     => true,
-            'mod'            => false,
-            'my'             => false
+            'mod'            => true,
+            'my'             => true
         );
     }
 
@@ -128,6 +128,8 @@ class block_simple_clock extends block_base {
 
         // Start the content, which is primarily a table.
         $this->content = new stdClass;
+        $this->content->text = '';
+        $this->content->footer = '';
         $table = new html_table();
         $table->attributes = array('class' => 'clockTable');
 
@@ -191,7 +193,7 @@ class block_simple_clock extends block_base {
             $moodletimeoffset = get_timezone_offset($CFG->timezone) + dst_offset_on(time(), $CFG->timezone);
             $servertimeoffset = date_offset_get(new DateTime);
             $timearray = localtime(time() + $moodletimeoffset - $servertimeoffset, true);
-        } 
+        }
         else {
             // Ensure that the server timezone is set.
             $timearray = localtime(time(), true);
