@@ -190,7 +190,8 @@ class block_simple_clock extends block_base {
         $this->content->text .= HTML_WRITER::tag('noscript', $noscriptstring);
         if ($CFG->timezone != 99) {
             // Ensure that the Moodle timezone is set correctly.
-            $moodletimeoffset = get_timezone_offset($CFG->timezone) + dst_offset_on(time(), $CFG->timezone);
+            $date = new DateTime('now', new DateTimeZone(core_date::normalise_timezone($CFG->timezone)));
+            $moodletimeoffset = $date->getOffset() - dst_offset_on(time(), $CFG->timezone);
             $servertimeoffset = date_offset_get(new DateTime);
             $timearray = localtime(time() + $moodletimeoffset - $servertimeoffset, true);
         }
