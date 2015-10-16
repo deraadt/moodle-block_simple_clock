@@ -185,18 +185,19 @@ class block_simple_clock extends block_base {
         }
         $this->content->text .= HTML_WRITER::table($table);
 
-        // Set up JavaScript coded needed to keep the clock going.
+        // Set up JavaScript code needed to keep the clock going.
         $noscriptstring = get_string('javascript_disabled', 'block_simple_clock');
         $this->content->text .= HTML_WRITER::tag('noscript', $noscriptstring);
         if ($CFG->timezone != 99) {
             // Ensure that the Moodle timezone is set correctly.
             $date = new DateTime('now', new DateTimeZone(core_date::normalise_timezone($CFG->timezone)));
-            $moodletimeoffset = $date->getOffset() - dst_offset_on(time(), $CFG->timezone);
+            $moodletimeoffset = $date->getOffset(); // + dst_offset_on(time(), $CFG->timezone);
             $servertimeoffset = date_offset_get(new DateTime);
             $timearray = localtime(time() + $moodletimeoffset - $servertimeoffset, true);
         }
         else {
             // Ensure that the server timezone is set.
+            // From 2.9 onwards, this should never happen.
             $timearray = localtime(time(), true);
         }
 
