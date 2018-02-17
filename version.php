@@ -20,11 +20,11 @@
  *
  * @package    contrib
  * @subpackage block_simple_clock
- * @copyright  2010 Michael de Raadt
+ * @copyright  2018 Michael de Raadt
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$plugin->version  = 2015101600;
+$plugin->version  = 2018021800;
 $plugin->requires = 2015051100;
 $plugin->maturity = 200;
 $plugin->release  = 'Version for Moodle 2.9 onwards';

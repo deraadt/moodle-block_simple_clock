@@ -75,7 +75,7 @@ class block_simple_clock extends block_base {
     }
 
     /**
-     * Controls global configurability of block
+     * Controls whether the block instance is configurable.
      *
      * @return bool
      */
@@ -139,16 +139,14 @@ class block_simple_clock extends block_base {
             if ($showicons) {
                 $alt = get_string('server', 'block_simple_clock');
                 $usingie = false;
-                if(class_exists('core_useragent')) {
+                if (class_exists('core_useragent')) {
                     $usingie = core_useragent::is_ie();
-                }
-                else {
+                } else {
                     $usingie = check_browser_version('MSIE');
                 }
                 if ($usingie) {
                     $servericon = $OUTPUT->pix_icon('server', $alt, 'block_simple_clock');
-                }
-                else {
+                } else {
                     $servericon = $OUTPUT->pix_icon('favicon', $alt, 'theme');
                 }
                 $row[] = $servericon;
@@ -170,8 +168,7 @@ class block_simple_clock extends block_base {
                     $userpictureparams = array('size' => 16, 'link' => false, 'alt' => 'User');
                     $userpicture = $OUTPUT->user_picture($USER, $userpictureparams);
                     $row[] = $userpicture;
-                }
-                else {
+                } else {
                     $row[] = '';
                 }
             }
@@ -191,11 +188,10 @@ class block_simple_clock extends block_base {
         if ($CFG->timezone != 99) {
             // Ensure that the Moodle timezone is set correctly.
             $date = new DateTime('now', new DateTimeZone(core_date::normalise_timezone($CFG->timezone)));
-            $moodletimeoffset = $date->getOffset(); // + dst_offset_on(time(), $CFG->timezone);
+            $moodletimeoffset = $date->getOffset();
             $servertimeoffset = date_offset_get(new DateTime);
             $timearray = localtime(time() + $moodletimeoffset - $servertimeoffset, true);
-        }
-        else {
+        } else {
             // Ensure that the server timezone is set.
             // From 2.9 onwards, this should never happen.
             $timearray = localtime(time(), true);
